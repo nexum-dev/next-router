@@ -1,7 +1,8 @@
 {
   "name": "@nx/next-router",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A routing library for Next.js",
+  "repository": "nexumAG/next-router",
   "main": "dist/index.js",
   "module": "dist/next-router.esm.js",
   "typings": "dist/index.d.ts",
