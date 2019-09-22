@@ -3,6 +3,7 @@ import * as React from 'react';
 export type Route = {
   pattern: string;
   page: string;
+  [key: string]: any;
 };
 
 export type Routes = {
@@ -18,8 +19,10 @@ export type RouteMatch = {
 };
 
 export type CurrentRoute = {
+  route: string;
   page: string;
   params: any;
+  hash: string;
 } | null;
 
 export type RouteAssemble = {

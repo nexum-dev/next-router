@@ -5,7 +5,6 @@ import Route from '../Route';
 class Router {
   private routes: { [key: string]: Route } = {};
   private currentRoute: CurrentRoute = null;
-  private isCurrentRouteSet: boolean = false;
 
   constructor(routes: Routes) {
     this.addRoutes(routes);
@@ -65,9 +64,9 @@ class Router {
     };
   }
 
-  getLinkPropsFromHref(href: string, cleanFunction: (href: string) => string = href => href): LinkProps {
+  getLinkPropsFromHref(href: string, transformFn: (href: string) => string = href => href): LinkProps {
     const hrefSlash = href.substr(0, 1) !== '/' ? `/${href}` : href;
-    const match = this.match(cleanFunction(hrefSlash));
+    const match = this.match(transformFn(hrefSlash));
     if (match.matched) {
       return this.getLinkProps(match.route, match.params, match.hash);
     }
@@ -87,21 +86,28 @@ class Router {
     return NextRouter.replace(props.href, props.as);
   }
 
-  getRequestHandler(app: any) {
-    const nextHandler = app.getRequestHandler();
+  getRequestHandler(renderFunction: Function) {
+    return (req: any, res: any, next: any) => {
+      // don't render next url's
+      const isNextUrl = req.url.match(/^\/_next|^\/static/);
+      if (isNextUrl) {
+        return next();
+      }
 
-    return (req: any, res: any) => {
-      const { page, params, matched } = this.match(req.url);
+      // try to match request url
+      const { matched, route, page, params, hash } = this.match(req.url);
 
       if (matched) {
-        if (!this.isCurrentRouteSet) {
-          this.setCurrentRoute({ page, params });
-          this.isCurrentRouteSet = true;
+        // set current route for later access
+        this.setCurrentRoute({ route, page, params, hash });
+
+        // call render function
+        if (renderFunction) {
+          return renderFunction(req, res, page, params, route);
         }
-        app.render(req, res, page, params);
-      } else {
-        nextHandler(req, res);
       }
+
+      next();
     };
   }
 
@@ -113,14 +119,6 @@ class Router {
     return this.currentRoute;
   }
 
-  getProps() {
-    return {
-      route: NextRouter.route,
-      query: NextRouter.query,
-      pathname: NextRouter.pathname,
-      asPath: NextRouter.asPath,
-    };
-  }
 }
 
 export default Router;
