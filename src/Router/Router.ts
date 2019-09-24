@@ -1,5 +1,11 @@
 import { default as NextRouter } from 'next/router';
-import { RouteMatch, CurrentRoute, Routes, RouteAssemble, LinkProps } from '../types';
+import {
+  RouterMatch,
+  CurrentRoute,
+  Routes,
+  RouteAssemble,
+  LinkProps,
+} from '../types';
 import Route from '../Route';
 
 class Router {
@@ -23,7 +29,7 @@ class Router {
     }
   }
 
-  match(asPath: string): RouteMatch & { route: string } {
+  match(asPath: string): RouterMatch {
     for (const route in this.routes) {
       if (!this.routes.hasOwnProperty(route)) {
         continue;
@@ -37,8 +43,9 @@ class Router {
 
     return {
       route: '',
-      params: null,
-      path: '',
+      params: {},
+      query: {},
+      path: asPath,
       page: '',
       hash: '',
       matched: false,
@@ -64,7 +71,10 @@ class Router {
     };
   }
 
-  getLinkPropsFromHref(href: string, transformFn: (href: string) => string = href => href): LinkProps {
+  getLinkPropsFromHref(
+    href: string,
+    transformFn: (href: string) => string = href => href
+  ): LinkProps {
     const hrefSlash = href.substr(0, 1) !== '/' ? `/${href}` : href;
     const match = this.match(transformFn(hrefSlash));
     if (match.matched) {
@@ -73,7 +83,7 @@ class Router {
     return {
       href,
       as: href,
-    }
+    };
   }
 
   push(route: string, params: any = {}): Promise<boolean> {
@@ -95,15 +105,15 @@ class Router {
       }
 
       // try to match request url
-      const { matched, route, page, params, hash } = this.match(req.url);
+      const { matched, route, page, params, query, hash } = this.match(req.url);
 
       if (matched) {
         // set current route for later access
-        this.setCurrentRoute({ route, page, params, hash });
+        this.setCurrentRoute({ route, page, params, query, hash });
 
         // call render function
         if (renderFunction) {
-          return renderFunction(req, res, page, params, route);
+          return renderFunction(req, res, page, params, query, route);
         }
       }
 
@@ -118,7 +128,6 @@ class Router {
   getCurrentRoute(): CurrentRoute {
     return this.currentRoute;
   }
-
 }
 
 export default Router;

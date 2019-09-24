@@ -11,17 +11,25 @@ type LinkProps = {
   [key: string]: any;
 };
 
-const Link = (router: Router) => ({ route, params = {}, hash = '', href, children, ...props }: LinkProps) => {
+const Link = (router: Router) => ({
+  route,
+  params = {},
+  hash = '',
+  href,
+  children,
+  ...props
+}: LinkProps) => {
   if (!route && !href) {
-    throw new Error('next-router: You have to provide a route or a href to the Link');
+    throw new Error(
+      'next-router: You have to provide a route or a href to the Link'
+    );
   }
 
   let mergedProps;
 
   if (route) {
     mergedProps = { ...router.getLinkProps(route, params, hash), ...props };
-  }
-  else {
+  } else {
     mergedProps = { ...router.getLinkPropsFromHref(href || ''), ...props };
   }
 
