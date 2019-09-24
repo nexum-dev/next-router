@@ -1,5 +1,6 @@
-// import * as pathToRegexp from 'path-to-regexp';
+import { getUrlParams } from './../utils';
 const pathToRegexp = require('path-to-regexp');
+
 import { PathFunction, Key } from 'path-to-regexp';
 import { RouteMatch } from '../types';
 
@@ -29,12 +30,25 @@ class Route {
   match(asPath: string): RouteMatch {
     const asPathSplitted = asPath.split('#');
     const asPathNoHash = asPathSplitted[0];
+
+    const asPathNoHashSplitted = asPathNoHash.split('?');
+    const asPathNoHashNoQuery = asPathNoHashSplitted[0];
+
+    // get query params
+    let queryParams = {};
+    if (asPathNoHashSplitted.length > 1) {
+      queryParams = getUrlParams(asPathNoHashSplitted[1]);
+    }
+
+    // get hash
     const hash = asPathSplitted.length > 1 ? asPathSplitted[1] : '';
-    const match = this.regex.exec(asPathNoHash);
+
+    const match = this.regex.exec(asPathNoHashNoQuery);
     if (match !== null) {
       const params = this.valuesToParams(match.slice(1), this.keys);
       return {
         params,
+        query: queryParams,
         hash,
         path: asPath,
         page: this.page,
@@ -42,9 +56,10 @@ class Route {
       };
     }
     return {
-      params: null,
-      hash: '',
-      path: '',
+      params: {},
+      query: queryParams,
+      hash: hash,
+      path: asPath,
       page: '',
       matched: false,
     };

@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 export type Route = {
   pattern: string;
   page: string;
@@ -13,15 +11,19 @@ export type Routes = {
 export type RouteMatch = {
   page: string;
   params: any;
+  query: any;
   matched: boolean;
   path: string;
   hash: string;
 };
 
+export type RouterMatch = RouteMatch & { route: string };
+
 export type CurrentRoute = {
   route: string;
   page: string;
   params: any;
+  query: any;
   hash: string;
 } | null;
 
