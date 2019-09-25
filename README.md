@@ -25,7 +25,7 @@ It works with a custom server or with Next.js 9 file system routing.
 ##### TODO:
 
 - Router events with route information
-- Unnamed parameters (does it make sense? -> [unnamed-parameters](https://github.com/pillarjs/path-to-regexp#unnamed-parameters)
+- Unnamed parameters (does it make sense? -> [unnamed-parameters](https://github.com/pillarjs/path-to-regexp#unnamed-parameters))
 - Nested routes
 
 ## How to
