@@ -51,7 +51,7 @@ const routes: Routes = {
 init(routes);
 ```
 
-We look at one root defininion:
+We look at one route defininion:
 
 ```javascript
 'user': { // This is the route name
@@ -198,3 +198,7 @@ app.prepare().then(() => {
   })
 });
  ```
+
+### License
+
+next-router is [MIT licensed](https://github.com/nexumAG/next-router/blob/master/LICENSE).
