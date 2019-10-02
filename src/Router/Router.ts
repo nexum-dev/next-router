@@ -7,13 +7,16 @@ import {
   LinkProps,
 } from '../types';
 import Route from '../Route';
+import events, { Events } from '../utils/events';
 
 class Router {
   private routes: { [key: string]: Route } = {};
   private currentRoute: CurrentRoute = null;
+  public events: Events;
 
   constructor(routes: Routes) {
     this.addRoutes(routes);
+    this.events = events(this);
   }
 
   addRoutes(routes: Routes, overwrite?: boolean): void {
@@ -86,13 +89,27 @@ class Router {
     };
   }
 
-  push(route: string, params: any = {}): Promise<boolean> {
-    const props = this.getLinkProps(route, params);
+  push(route: string, params: any = {}, hash: string = ''): Promise<boolean> {
+    const props = this.getLinkProps(route, params, hash);
     return NextRouter.push(props.href, props.as);
   }
 
-  replace(route: string, params: any = {}): Promise<boolean> {
-    const props = this.getLinkProps(route, params);
+  pushHref(href: string): Promise<boolean> {
+    const props = this.getLinkPropsFromHref(href);
+    return NextRouter.push(props.href, props.as);
+  }
+
+  replace(
+    route: string,
+    params: any = {},
+    hash: string = ''
+  ): Promise<boolean> {
+    const props = this.getLinkProps(route, params, hash);
+    return NextRouter.replace(props.href, props.as);
+  }
+
+  replaceHref(href: string): Promise<boolean> {
+    const props = this.getLinkPropsFromHref(href);
     return NextRouter.replace(props.href, props.as);
   }
 
@@ -118,6 +135,17 @@ class Router {
       }
 
       next();
+    };
+  }
+
+  currentRouteFromMatch(routerMatch: RouterMatch): CurrentRoute {
+    const { route, page, params, query, hash } = routerMatch;
+    return {
+      route,
+      page,
+      params,
+      query,
+      hash,
     };
   }
 

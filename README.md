@@ -21,10 +21,10 @@ It works with a custom server or with Next.js 9 file system routing.
 - withNextRouter HOC for custom app component (make current route available)
 - useRouter hook
 - Link and Router available as Singleton thru `import { Link, Router } from '@nx/next-router';`
+- Router events with route information
 
 ##### TODO:
 
-- Router events with route information
 - Unnamed parameters (does it make sense? -> [unnamed-parameters](https://github.com/pillarjs/path-to-regexp#unnamed-parameters))
 - Nested routes
 
@@ -117,7 +117,7 @@ Page.getInitialProps = async ({ query }) => {
 ```
 
 ```jsx
-// userRouter hook example
+// useRouter hook example
 
 import React from 'react';
 import { useRouter } from '@nx/next-router';
@@ -197,6 +197,21 @@ app.prepare().then(() => {
     console.log(`> Ready on http://localhost:${port}`);
   })
 });
+ ```
+
+#### Router Events
+
+You can use the same events you know from the original next/router.
+But instead of the url you get an object with the route information. (from type CurrentRoute)
+
+ ```javascript
+import { Router } from '@nx/next-router';
+
+const handleRouteChange = route => {
+  console.log('App is changing to route: ', route);
+};
+
+Router.events.on('routeChangeStart', handleRouteChange);
  ```
 
 ### License

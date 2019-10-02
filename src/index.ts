@@ -15,16 +15,21 @@ interface Constructable<T> {
 
 export const init = (
   routes: Routes,
-  routerClass?: Constructable<Router>,
+  RouterClass?: Constructable<Router>,
   LinkFactory?: (router: Router) => (props: any) => NextLink,
   getRouterMatchFunction?: (appCtx: AppContext, router: Router) => RouterMatch
 ) => {
-  router = routerClass ? new routerClass(routes) : new Router(routes);
+  router = RouterClass ? new RouterClass(routes) : new Router(routes);
   link = LinkFactory ? LinkFactory(router) : Link(router);
   withNextRouter = withNextRouterFactory(router, getRouterMatchFunction);
 };
 
 const useRouter = (): CurrentRoute => {
+  if (!router) {
+    throw new Error(
+      'next-router: Router is not set. You have to initialize next-router first.'
+    );
+  }
   return router.getCurrentRoute();
 };
 
