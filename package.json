@@ -1,6 +1,6 @@
 {
   "name": "@nx/next-router",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A routing library for Next.js",
   "repository": "nexumAG/next-router",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "lint": "tsdx lint"
   },
   "peerDependencies": {
-    "next": ">=7",
+    "next": ">=2",
     "react": ">=16",
     "react-dom": ">=16"
   },

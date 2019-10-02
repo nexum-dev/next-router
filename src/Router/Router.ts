@@ -7,13 +7,16 @@ import {
   LinkProps,
 } from '../types';
 import Route from '../Route';
+import events, { Events } from '../utils/events';
 
 class Router {
   private routes: { [key: string]: Route } = {};
   private currentRoute: CurrentRoute = null;
+  public events: Events;
 
   constructor(routes: Routes) {
     this.addRoutes(routes);
+    this.events = events(this);
   }
 
   addRoutes(routes: Routes, overwrite?: boolean): void {
@@ -132,6 +135,17 @@ class Router {
       }
 
       next();
+    };
+  }
+
+  currentRouteFromMatch(routerMatch: RouterMatch): CurrentRoute {
+    const { route, page, params, query, hash } = routerMatch;
+    return {
+      route,
+      page,
+      params,
+      query,
+      hash,
     };
   }
 
