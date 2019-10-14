@@ -15,21 +15,26 @@ class Router {
   public events: Events;
 
   constructor(routes: Routes) {
-    this.addRoutes(routes);
+    this.setRoutes(routes);
     this.events = events(this);
   }
 
-  addRoutes(routes: Routes, overwrite?: boolean): void {
-    if (overwrite) {
-      this.routes = {};
-    }
+  setRoutes(routes: Routes): void {
+    this.routes = {};
+    this.addRoutes(routes);
+  }
 
+  addRoutes(routes: Routes): void {
     for (const route in routes) {
       if (!routes.hasOwnProperty(route)) {
         continue;
       }
       this.routes[route] = new Route(routes[route].pattern, routes[route].page);
     }
+  }
+
+  getRoutes(): { [key: string]: Route } {
+    return this.routes;
   }
 
   match(asPath: string): RouterMatch {
