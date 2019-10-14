@@ -33,6 +33,10 @@ class Router {
     }
   }
 
+  getRoutes(): { [key: string]: Route } {
+    return this.routes;
+  }
+
   match(asPath: string): RouterMatch {
     for (const route in this.routes) {
       if (!this.routes.hasOwnProperty(route)) {
