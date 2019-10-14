@@ -89,28 +89,34 @@ class Router {
     };
   }
 
-  push(route: string, params: any = {}, hash: string = ''): Promise<boolean> {
+  push(
+    route: string,
+    params: any = {},
+    hash: string = '',
+    options: any = {}
+  ): Promise<boolean> {
     const props = this.getLinkProps(route, params, hash);
-    return NextRouter.push(props.href, props.as);
+    return NextRouter.push(props.href, props.as, options);
   }
 
-  pushHref(href: string): Promise<boolean> {
+  pushHref(href: string, options: any = {}): Promise<boolean> {
     const props = this.getLinkPropsFromHref(href);
-    return NextRouter.push(props.href, props.as);
+    return NextRouter.push(props.href, props.as, options);
   }
 
   replace(
     route: string,
     params: any = {},
-    hash: string = ''
+    hash: string = '',
+    options: any = {}
   ): Promise<boolean> {
     const props = this.getLinkProps(route, params, hash);
-    return NextRouter.replace(props.href, props.as);
+    return NextRouter.replace(props.href, props.as, options);
   }
 
-  replaceHref(href: string): Promise<boolean> {
+  replaceHref(href: string, options: any = {}): Promise<boolean> {
     const props = this.getLinkPropsFromHref(href);
-    return NextRouter.replace(props.href, props.as);
+    return NextRouter.replace(props.href, props.as, options);
   }
 
   getRequestHandler(renderFunction: Function) {
