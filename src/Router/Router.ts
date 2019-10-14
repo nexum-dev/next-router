@@ -15,15 +15,16 @@ class Router {
   public events: Events;
 
   constructor(routes: Routes) {
-    this.addRoutes(routes);
+    this.setRoutes(routes);
     this.events = events(this);
   }
 
-  addRoutes(routes: Routes, overwrite?: boolean): void {
-    if (overwrite) {
-      this.routes = {};
-    }
+  setRoutes(routes: Routes): void {
+    this.routes = {};
+    this.addRoutes(routes);
+  }
 
+  addRoutes(routes: Routes): void {
     for (const route in routes) {
       if (!routes.hasOwnProperty(route)) {
         continue;

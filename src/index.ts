@@ -38,4 +38,10 @@ export { router as Router };
 export { link as Link };
 export { withNextRouter, useRouter };
 export { default as RouteClass } from './Route';
-export { Routes, RouteMatch, RouteAssemble, LinkProps } from './types';
+export {
+  Routes,
+  RouteMatch,
+  RouteAssemble,
+  LinkProps,
+  CurrentRoute,
+} from './types';
