@@ -1,7 +1,5 @@
+import { PathFunction, Key, pathToRegexp, compile } from 'path-to-regexp';
 import { getUrlParams } from './../utils';
-const pathToRegexp = require('path-to-regexp');
-
-import { PathFunction, Key } from 'path-to-regexp';
 import { RouteMatch } from '../types';
 
 class Route {
@@ -12,7 +10,7 @@ class Route {
 
   constructor(pattern: string, page: string) {
     this.page = page;
-    this.compiled = pathToRegexp.compile(pattern);
+    this.compiled = compile(pattern, { encode: encodeURIComponent });
     this.keys = [];
     // @ts-ignore
     this.regex = pathToRegexp(pattern, this.keys);
