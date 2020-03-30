@@ -41,3 +41,62 @@ describe('Route match', () => {
     expect(match).toEqual(expected);
   });
 });
+
+describe('Route assemble', () => {
+  it('assemble one named param', () => {
+    const pattern = '/user/:name';
+    const page = '/user';
+
+    const route = new Route(pattern, page);
+
+    const assembled = route.assemble({ name: 'stefan' });
+
+    expect(assembled).toEqual('/user/stefan');
+  });
+
+  it('assemble one optional param', () => {
+    const pattern = '/user/:name?';
+    const page = '/user';
+
+    const route = new Route(pattern, page);
+
+    const assembled = route.assemble({});
+
+    expect(assembled).toEqual('/user');
+  });
+
+  it('assemble param value with slashes', () => {
+    const pattern = '/:cms';
+    const page = '/cms';
+
+    const route = new Route(pattern, page);
+
+    const assembled = route.assemble({ cms: 'de/dynamic-page/subpage' });
+
+    expect(assembled).toEqual('/de%2Fdynamic-page%2Fsubpage');
+  });
+
+  it('assemble segment param', () => {
+    const pattern = '/:cms+';
+    const page = '/cms';
+
+    const route = new Route(pattern, page);
+
+    const assembled = route.assemble({
+      cms: ['de', 'dynamic-page', 'subpage'],
+    });
+
+    expect(assembled).toEqual('/de/dynamic-page/subpage');
+  });
+
+  it('assemble with special character', () => {
+    const pattern = '/user/:name';
+    const page = '/user';
+
+    const route = new Route(pattern, page);
+
+    const assembled = route.assemble({ name: 'stéfan' });
+
+    expect(assembled).toEqual('/user/st%C3%A9fan');
+  });
+});
