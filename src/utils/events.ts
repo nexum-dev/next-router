@@ -16,7 +16,7 @@ const getHandlerRouter = (router: Router, handler: Handler) => (
   ...evts: any[]
 ) => {
   let url = evts[0];
-  if (evts.length > 1) {
+  if (evts.length > 1 && typeof evts[1] === "string") {
     url = evts[1];
   }
   const routerMatch = router.match(url);

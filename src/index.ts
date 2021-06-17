@@ -1,4 +1,3 @@
-import NextLink from 'next/link';
 import Router from './Router';
 import Link from './Link';
 import withNextRouterFactory from './hocs/withNextRouter';
@@ -16,7 +15,7 @@ interface Constructable<T> {
 export const init = (
   routes: Routes,
   RouterClass?: Constructable<Router>,
-  LinkFactory?: (router: Router) => (props: any) => NextLink,
+  LinkFactory?: (router: Router) => (props: any) => any,
   getRouterMatchFunction?: (appCtx: AppContext, router: Router) => RouterMatch
 ) => {
   router = RouterClass ? new RouterClass(routes) : new Router(routes);
