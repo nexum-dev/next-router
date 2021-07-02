@@ -2,7 +2,7 @@ import * as React from 'react';
 import NextLink from 'next/link';
 import Router from '../Router';
 
-type LinkProps = {
+export type LinkProps = {
   route?: string;
   params?: any;
   hash?: string;
