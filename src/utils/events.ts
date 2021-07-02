@@ -3,9 +3,17 @@ import Router from 'Router/Router';
 
 type Handler = (...evts: any[]) => void;
 
+export type EventType =
+  | 'routeChangeStart'
+  | 'beforeHistoryChange'
+  | 'routeChangeComplete'
+  | 'routeChangeError'
+  | 'hashChangeStart'
+  | 'hashChangeComplete';
+
 export type Events = {
-  on(type: string, handler: Handler): void;
-  off(type: string, handler: Handler): void;
+  on(type: EventType, handler: Handler): void;
+  off(type: EventType, handler: Handler): void;
 };
 
 type Handlers = { handler: Handler; handlerRouter: Handler };
@@ -16,7 +24,7 @@ const getHandlerRouter = (router: Router, handler: Handler) => (
   ...evts: any[]
 ) => {
   let url = evts[0];
-  if (evts.length > 1) {
+  if (evts.length > 1 && typeof evts[1] === 'string') {
     url = evts[1];
   }
   const routerMatch = router.match(url);
@@ -38,12 +46,12 @@ export default function events(router: Router): Events {
   const all: Cache = Object.create(null);
 
   return {
-    on(type: string, handler: Handler) {
+    on(type: EventType, handler: Handler) {
       const handlerRouter = getHandlerRouter(router, handler);
       NextRouter.events.on(type, handlerRouter);
       (all[type] || (all[type] = [])).push({ handler, handlerRouter });
     },
-    off(type: string, handler: Handler) {
+    off(type: EventType, handler: Handler) {
       if (all[type]) {
         const handlersIndex = findHandlersIndex(all[type], handler);
         if (handlersIndex >= 0) {

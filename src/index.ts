@@ -16,7 +16,7 @@ interface Constructable<T> {
 export const init = (
   routes: Routes,
   RouterClass?: Constructable<Router>,
-  LinkFactory?: (router: Router) => (props: any) => NextLink,
+  LinkFactory?: (router: Router) => typeof NextLink,
   getRouterMatchFunction?: (appCtx: AppContext, router: Router) => RouterMatch
 ) => {
   router = RouterClass ? new RouterClass(routes) : new Router(routes);
