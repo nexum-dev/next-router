@@ -99,4 +99,15 @@ describe('Route assemble', () => {
 
     expect(assembled).toEqual('/user/st%C3%A9fan');
   });
+
+  it('assemble with optional trailing slash', () => {
+    const pattern = '/user/:name/(.*)?';
+    const page = '/user';
+
+    const route = new Route(pattern, page);
+
+    const assembled = route.assemble({ name: 'stefan' });
+
+    expect(assembled).toEqual('/user/stefan');
+  });
 });

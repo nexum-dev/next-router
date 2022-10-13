@@ -54,3 +54,32 @@ it('Router addRoutes', () => {
 
   expect(JSON.stringify(match)).toEqual(JSON.stringify(expected));
 });
+
+it('Router getLinkPropsFromHref', () => {
+  const routes: Routes = {
+    pdp: {
+      pattern: '/:products*/id/:productId/(.*)?',
+      page: '/pdp',
+    },
+  };
+
+  const router = new Router(routes);
+
+  const linkProps = router.getLinkPropsFromHref(
+    '/musik/cd/eilish-billie/dont-smile-at-me/id/1234/'
+  );
+
+  const expected = {
+    href: {
+      pathname: '/pdp',
+      query: {
+        0: '',
+        products: 'musik/cd/eilish-billie/dont-smile-at-me',
+        productId: '1234',
+      },
+    },
+    as: '/musik%2Fcd%2Feilish-billie%2Fdont-smile-at-me/id/1234/',
+  };
+
+  expect(JSON.stringify(linkProps)).toEqual(JSON.stringify(expected));
+});
