@@ -81,7 +81,7 @@ class Router {
 
   getLinkPropsFromHref(
     href: string,
-    transformFn: (href: string) => string = href => href
+    transformFn: (href: string) => string = (href) => href,
   ): LinkProps {
     const hrefSlash = href.substr(0, 1) !== '/' ? `/${href}` : href;
     const match = this.match(transformFn(hrefSlash));
@@ -98,7 +98,7 @@ class Router {
     route: string,
     params: any = {},
     hash: string = '',
-    options: any = {}
+    options: any = {},
   ): Promise<boolean> {
     const props = this.getLinkProps(route, params, hash);
     return NextRouter.push(props.href, props.as, options);
@@ -113,7 +113,7 @@ class Router {
     route: string,
     params: any = {},
     hash: string = '',
-    options: any = {}
+    options: any = {},
   ): Promise<boolean> {
     const props = this.getLinkProps(route, params, hash);
     return NextRouter.replace(props.href, props.as, options);
