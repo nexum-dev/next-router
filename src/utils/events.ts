@@ -20,24 +20,23 @@ type Handlers = { handler: Handler; handlerRouter: Handler };
 
 type Cache = { [s: string]: Handlers[] };
 
-const getHandlerRouter = (router: Router, handler: Handler) => (
-  ...evts: any[]
-) => {
-  let url = evts[0];
-  if (evts.length > 1 && typeof evts[1] === 'string') {
-    url = evts[1];
-  }
-  const routerMatch = router.match(url);
-  const currentRoute = router.currentRouteFromMatch(routerMatch);
-  if (evts.length === 1) {
-    handler(currentRoute);
-  } else {
-    handler(evts[0], currentRoute);
-  }
-};
+const getHandlerRouter =
+  (router: Router, handler: Handler) => (...evts: any[]) => {
+    let url = evts[0];
+    if (evts.length > 1 && typeof evts[1] === 'string') {
+      url = evts[1];
+    }
+    const routerMatch = router.match(url);
+    const currentRoute = router.currentRouteFromMatch(routerMatch);
+    if (evts.length === 1) {
+      handler(currentRoute);
+    } else {
+      handler(evts[0], currentRoute);
+    }
+  };
 
 const findHandlersIndex = (arr: Handlers[], handler: Handler) => {
-  return arr.findIndex(handlers => {
+  return arr.findIndex((handlers) => {
     return handlers.handler === handler;
   });
 };

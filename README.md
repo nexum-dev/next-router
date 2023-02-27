@@ -2,11 +2,11 @@
 
 > A routing library for Next.js
 
-[![NPM](https://img.shields.io/npm/v/@nx/next-router.svg)](https://www.npmjs.com/package/@nx/next-router)
+[![NPM](https://img.shields.io/npm/v/@nexum-ag/next-router.svg)](https://www.npmjs.com/package/@nexum-ag/next-router)
 
 #### Installation
 
-`npm install @nx/next-router`
+`npm install @nexum-ag/next-router`
 
 # Introduction
 
@@ -20,7 +20,7 @@ It works with a custom server or with Next.js 9 file system routing.
 - Url Hashes support
 - withNextRouter HOC for custom app component (make current route available)
 - useRouter hook
-- Link and Router available as Singleton thru `import { Link, Router } from '@nx/next-router';`
+- Link and Router available as Singleton thru `import { Link, Router } from '@nexum-ag/next-router';`
 - Router events with route information
 
 ##### TODO:
@@ -35,7 +35,7 @@ It works with a custom server or with Next.js 9 file system routing.
 Create a file like `routes.config.(ts|js)` and paste the following:
 
 ```javascript
-import { Routes, init } from '@nx/next-router';
+import { Routes, init } from '@nexum-ag/next-router';
 
 const routes: Routes = {
   'user': {
@@ -72,7 +72,7 @@ You can use next-router Link component instead of the next/link.
 
 ```jsx
 import 'routes.config'; // import this only once and before using Link
-import { Link } from '@nx/next-router';
+import { Link } from '@nexum-ag/next-router';
 
 // /user pattern
 <Link route="user">
@@ -95,7 +95,7 @@ If you use this HOC the query params and route information will be available in 
 import React from 'react';
 import App from 'next/app';
 import '../routes.config';
-import { withNextRouter } from '@nx/next-router';
+import { withNextRouter } from '@nexum-ag/next-router';
 
 class MyApp extends App {
   render() {
@@ -120,7 +120,7 @@ Page.getInitialProps = async ({ query }) => {
 // useRouter hook example
 
 import React from 'react';
-import { useRouter } from '@nx/next-router';
+import { useRouter } from '@nexum-ag/next-router';
 
 const Component = props => {
   const { route, params, query } = useRouter();
@@ -142,10 +142,10 @@ const Component = props => {
 #### Custom Router/Link
 
 You can pass a custom Router class, Link component or getRouterMatchFunction to the init function if you need to.
-They will be used instead of the built ins with `import { Link, Router } from '@nx/next-router';`.
+They will be used instead of the built ins with `import { Link, Router } from '@nexum-ag/next-router';`.
 
  ```javascript
- import { Routes, init } from '@nx/next-router';
+ import { Routes, init } from '@nexum-ag/next-router';
  
  const routes: Routes = {
    ...
@@ -175,7 +175,7 @@ const express = require('express');
 const next = require('next');
 
 require('./routes.config');
-const Router = require('@nx/next-router').Router;
+const Router = require('@nexum-ag/next-router').Router;
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -205,7 +205,7 @@ You can use the same events you know from the original next/router.
 But instead of the url you get an object with the route information. (from type CurrentRoute)
 
  ```javascript
-import { Router } from '@nx/next-router';
+import { Router } from '@nexum-ag/next-router';
 
 const handleRouteChange = route => {
   console.log('App is changing to route: ', route);
@@ -216,4 +216,4 @@ Router.events.on('routeChangeStart', handleRouteChange);
 
 ### License
 
-next-router is [MIT licensed](https://github.com/nexumAG/next-router/blob/master/LICENSE).
+next-router is [MIT licensed](https://github.com/nexum-dev/next-router/blob/master/LICENSE).
