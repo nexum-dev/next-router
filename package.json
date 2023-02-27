@@ -1,16 +1,13 @@
 {
   "name": "@nexum-ag/next-router",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "A routing library for Next.js",
   "repository": "nexum-dev/next-router",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
-  "module": "dist/module.js",
-  "types": "dist/types.d.ts",
-  "files": [
-    "dist"
-  ],
+  "module": "dist/next-router.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start": "parcel watch",
     "build": "parcel build",
