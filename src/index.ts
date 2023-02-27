@@ -38,7 +38,7 @@ export { router as Router };
 export { link as Link };
 export { withNextRouter, useRouter };
 export { default as RouteClass } from './Route';
-export {
+export type {
   Routes,
   RouteMatch,
   RouteAssemble,
