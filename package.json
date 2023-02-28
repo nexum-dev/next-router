@@ -1,6 +1,6 @@
 {
   "name": "@nexum-ag/next-router",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A routing library for Next.js",
   "repository": "nexum-dev/next-router",
   "license": "MIT",
@@ -8,10 +8,20 @@
   "main": "dist/index.js",
   "module": "dist/next-router.esm.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.js.map",
+    "dist/index.d.ts",
+    "dist/index.d.ts.map",
+    "dist/next-router.esm.js",
+    "dist/next-router.esm.js.map"
+  ],
   "scripts": {
     "start": "parcel watch",
     "build": "parcel build",
+    "prepare": "yarn build",
     "test": "jest",
+    "typecheck": "tsc --noEmit",
     "code:check": "rome check src/*.ts src/**/*.ts",
     "code:format": "rome format src/**/*.ts --write",
     "code:fix": "rome check src/**/*.ts --apply"
