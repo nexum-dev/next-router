@@ -29,8 +29,4 @@
     "jsx": "react",
     "esModuleInterop": true
   },
-  "parcel-plugin-typescript": {
-    // If true type-checking is disabled
-    "transpileOnly": false
-  }
 }
