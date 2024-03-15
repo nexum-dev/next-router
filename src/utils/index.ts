@@ -1,15 +1,17 @@
+import { safeDecodeUriComponent } from '../utils/safeDecodeUriComponents';
+
 export const getUrlParams = (queryString: string) => {
   if (!queryString) {
     return {};
   }
-  let hashes = queryString.split('&');
-  let params: { [key: string]: string | null } = {};
-  hashes.forEach((hash) => {
-    let [key, val] = hash.split('=');
+  const hashes = queryString.split('&');
+  const params: { [key: string]: string | null } = {};
+  for (const hash of hashes) {
+    const [key, val] = hash.split('=');
     if (key) {
-      params[key] = val ? decodeURIComponent(val) : null;
+      params[key] = val ? safeDecodeUriComponent(val) : null;
     }
-  });
+  }
 
   return params;
 };

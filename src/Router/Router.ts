@@ -1,13 +1,13 @@
 import { default as NextRouter } from 'next/router';
-import {
-  RouterMatch,
-  CurrentRoute,
-  Routes,
-  RouteAssemble,
-  LinkProps,
-} from '../types';
 import Route from '../Route';
-import events, { Events } from '../utils/events';
+import type {
+  CurrentRoute,
+  LinkProps,
+  RouteAssemble,
+  RouterMatch,
+  Routes,
+} from '../types';
+import events, { type Events } from '../utils/events';
 
 class Router {
   private routes: { [key: string]: Route } = {};
@@ -26,7 +26,7 @@ class Router {
 
   addRoutes(routes: Routes): void {
     for (const route in routes) {
-      if (!routes.hasOwnProperty(route)) {
+      if (!Object.prototype.hasOwnProperty.call(routes, route)) {
         continue;
       }
       this.routes[route] = new Route(routes[route].pattern, routes[route].page);
@@ -39,7 +39,7 @@ class Router {
 
   match(asPath: string): RouterMatch {
     for (const route in this.routes) {
-      if (!this.routes.hasOwnProperty(route)) {
+      if (!Object.prototype.hasOwnProperty.call(this.routes, route)) {
         continue;
       }
 
@@ -70,7 +70,7 @@ class Router {
     throw new Error('next-router: No route matched');
   }
 
-  getLinkProps(route: string, params: any = {}, hash: string = ''): LinkProps {
+  getLinkProps(route: string, params: any = {}, hash = ''): LinkProps {
     const assembled = this.assemble(route, params);
     const hashSuffix = hash !== '' ? `#${hash}` : '';
     return {
@@ -97,7 +97,7 @@ class Router {
   push(
     route: string,
     params: any = {},
-    hash: string = '',
+    hash = '',
     options: any = {},
   ): Promise<boolean> {
     const props = this.getLinkProps(route, params, hash);
@@ -112,7 +112,7 @@ class Router {
   replace(
     route: string,
     params: any = {},
-    hash: string = '',
+    hash = '',
     options: any = {},
   ): Promise<boolean> {
     const props = this.getLinkProps(route, params, hash);
@@ -124,6 +124,7 @@ class Router {
     return NextRouter.replace(props.href, props.as, options);
   }
 
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
   getRequestHandler(renderFunction: Function) {
     return (req: any, res: any, next: any) => {
       // don't render next url's
