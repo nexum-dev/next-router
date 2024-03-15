@@ -1,6 +1,6 @@
 import Route from '../src/Route';
-import Router from "../src/Router";
-import {Routes} from "../src";
+import Router from '../src/Router';
+import type { Routes } from '../src';
 
 describe('Route match', () => {
   it('matches one named pattern', () => {
@@ -73,7 +73,7 @@ describe('Route assemble', () => {
 
     const route = new Route(pattern, page);
 
-    const assembled = route.assemble({name: "stu%deff"});
+    const assembled = route.assemble({ name: 'stu%deff' });
 
     expect(assembled).toEqual('/user/stu%25deff');
   });
@@ -112,7 +112,7 @@ describe('Route assemble', () => {
       cms: ['de', 'dyn amic-pa ge', 'su bpag e'],
     });
 
-    expect(assembled).toEqual("/de/dyn%20amic-pa%20ge/su%20bpag%20e");
+    expect(assembled).toEqual('/de/dyn%20amic-pa%20ge/su%20bpag%20e');
   });
 
   it('assemble segment param with invalid octets', () => {
@@ -125,7 +125,7 @@ describe('Route assemble', () => {
       cms: ['de', '%25%DE%20', 'subpage'],
     });
 
-    expect(assembled).toEqual("/de/%2525%25DE%2520/subpage");
+    expect(assembled).toEqual('/de/%2525%25DE%2520/subpage');
   });
 
   it('assemble segment param with non-hexadecimal characters in percent-encoded octets', () => {
@@ -138,7 +138,7 @@ describe('Route assemble', () => {
       cms: ['de', '%ZZ%YY', '%41%42%43%G1%H2'],
     });
 
-    expect(assembled).toEqual("/de/%25ZZ%25YY/%2541%2542%2543%25G1%25H2");
+    expect(assembled).toEqual('/de/%25ZZ%25YY/%2541%2542%2543%25G1%25H2');
   });
 
   it('assemble with special character', () => {

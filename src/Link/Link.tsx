@@ -1,3 +1,4 @@
+// biome-ignore lint/style/useImportType: <explanation>
 import * as React from 'react';
 import NextLink from 'next/link';
 import type Router from '../Router';

@@ -1,5 +1,5 @@
 import Router from '../src/Router';
-import { Routes } from '../src/types';
+import type { Routes } from '../src/types';
 import Route from '../src/Route/Route';
 
 describe('Router AI tests', () => {
@@ -59,9 +59,9 @@ describe('Router AI tests', () => {
   });
 
   it('should get link props without hash correctly with malformed data', () => {
-    const linkProps = router.getLinkProps('test', { id: "%25%DE%20" });
+    const linkProps = router.getLinkProps('test', { id: '%25%DE%20' });
     expect(linkProps).toEqual({
-      href: { pathname: '/test', query: { id: "%25%DE%20" } },
+      href: { pathname: '/test', query: { id: '%25%DE%20' } },
       as: '/test',
     });
   });
@@ -153,7 +153,7 @@ it('Router getLinkPropsFromHref', () => {
   const router = new Router(routes);
 
   const linkProps = router.getLinkPropsFromHref(
-    '/musik/cd/eilish-billie/dont-smile-at-me/id/1234/'
+    '/musik/cd/eilish-billie/dont-smile-at-me/id/1234/',
   );
 
   const expected = {
