@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { NextComponentType } from 'next';
-import { AppContext } from 'next/app';
-import Router from './../Router';
-import { CurrentRoute, RouterMatch } from './../types';
+import type { NextComponentType } from 'next';
+import type { AppContext } from 'next/app';
+import type Router from './../Router';
+import type { CurrentRoute, RouterMatch } from './../types';
 
 interface WrappedAppProps {
   initialProps: any;
@@ -16,11 +16,9 @@ const getRouterMatch = (appCtx: AppContext, router: Router): RouterMatch => {
 
 export default (
   router: Router,
-  getRouterMatchFunction?: (appCtx: AppContext, router: Router) => RouterMatch
+  getRouterMatchFunction?: (appCtx: AppContext, router: Router) => RouterMatch,
 ) => {
-  if (!getRouterMatchFunction) {
-    getRouterMatchFunction = getRouterMatch;
-  }
+  const routerMatchFunction = getRouterMatchFunction || getRouterMatch;
 
   return (App: NextComponentType | any) =>
     class WrappedApp extends React.Component<WrappedAppProps> {
@@ -37,9 +35,7 @@ export default (
           matched: false,
         };
 
-        if (getRouterMatchFunction) {
-          routerMatch = getRouterMatchFunction(appCtx, router);
-        }
+        routerMatch = routerMatchFunction(appCtx, router);
 
         if (!routerMatch.matched) {
           if (appCtx.ctx.res) {

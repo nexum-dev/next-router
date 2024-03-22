@@ -1,6 +1,12 @@
-import { PathFunction, Key, pathToRegexp, compile } from 'path-to-regexp';
+import {
+  type Key,
+  type PathFunction,
+  compile,
+  pathToRegexp,
+} from 'path-to-regexp';
+import type { RouteMatch } from '../types';
+import { safeDecodeUriComponent } from '../utils/safeDecodeUriComponents';
 import { getUrlParams } from './../utils';
-import { RouteMatch } from '../types';
 
 class Route {
   private page: string;
@@ -20,7 +26,7 @@ class Route {
     return values.reduce((params: any, val: any, i: number) => {
       if (val === undefined) return params;
       return Object.assign(params, {
-        [keys[i].name]: decodeURIComponent(val),
+        [keys[i].name]: safeDecodeUriComponent(val),
       });
     }, {});
   }
